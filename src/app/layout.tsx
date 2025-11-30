@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
+import SessionProvider from "@/components/SessionProvider";
+import { CartProvider } from "@/contexts/CartContext";
+import CartDrawer from "@/components/CartDrawer";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -43,7 +46,12 @@ export default function RootLayout({
   return (
     <html lang="vi" className="scroll-smooth">
       <body className={`${playfair.variable} ${inter.variable} antialiased`}>
-        {children}
+        <SessionProvider>
+          <CartProvider>
+            {children}
+            <CartDrawer />
+          </CartProvider>
+        </SessionProvider>
       </body>
     </html>
   );

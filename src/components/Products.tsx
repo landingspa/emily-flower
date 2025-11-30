@@ -1,61 +1,80 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 import { ShoppingCart } from "lucide-react";
+import Link from "next/link";
+
+interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  price: number;
+  image: string;
+  tag?: string;
+  featured: boolean;
+}
 
 export default function Products() {
-  const products = [
-    {
-      id: 1,
-      name: "Hoa Hồng Sáp Thơm",
-      price: "299.000₫",
-      image: "/images/rose-wax.jpg",
-      badge: "Mới",
-      badgeColor: "bg-rose-400",
-    },
-    {
-      id: 2,
-      name: "Gấu Bông Hoa Hồng",
-      price: "450.000₫",
-      image: "/images/rose-bear.jpg",
-      badge: null,
-      badgeColor: "",
-    },
-    {
-      id: 3,
-      name: "Hoa Tulip Sáp",
-      price: "249.000₫",
-      image: "/images/tulip-wax.jpg",
-      badge: "Sale",
-      badgeColor: "bg-red-500",
-    },
-    {
-      id: 4,
-      name: "Hoa Cẩm Chướng Sáp",
-      price: "199.000₫",
-      image: "/images/carnation-wax.jpg",
-      badge: null,
-      badgeColor: "",
-    },
-    {
-      id: 5,
-      name: "Gấu Bông Hoa Mix",
-      price: "550.000₫",
-      image: "/images/mixed-bear.jpg",
-      badge: "Hot",
-      badgeColor: "bg-orange-500",
-    },
-    {
-      id: 6,
-      name: "Bó Hoa Sáp Vintage",
-      price: "399.000₫",
-      image: "/images/vintage-bouquet.jpg",
-      badge: null,
-      badgeColor: "",
-    },
-  ];
+  const { addToCart } = useCart();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch("/api/products");
+      const data = await response.json();
+      // Filter featured products and take first 6
+      const featuredProducts = data
+        .filter((p: Product) => p.featured)
+        .slice(0, 6);
+      setProducts(featuredProducts);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getTagColor = (tag?: string) => {
+    switch (tag) {
+      case "Mới":
+        return "bg-rose-400";
+      case "Hot":
+        return "bg-orange-500";
+      case "Bán chạy":
+        return "bg-green-500";
+      case "Giảm giá":
+        return "bg-red-500";
+      default:
+        return "bg-rose-400";
+    }
+  };
+
+  if (loading) {
+    return (
+      <section
+        id="products"
+        className="py-16 md:py-24 bg-linear-to-b from-white to-rose-50"
+      >
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-rose-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600">Đang tải sản phẩm...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
       id="products"
-      className="py-16 md:py-24 bg-gradient-to-b from-white to-rose-50"
+      className="py-16 md:py-24 bg-linear-to-b from-white to-rose-50"
     >
       <div className="container mx-auto px-4">
         {/* Section Header */}
@@ -97,41 +116,52 @@ export default function Products() {
               className="group bg-white rounded-lg overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
             >
               {/* Image Container */}
-              <div className="relative aspect-square bg-gray-100 overflow-hidden">
-                {product.badge && (
-                  <span
-                    className={`absolute top-4 left-4 ${product.badgeColor} text-white text-xs font-bold px-3 py-1 rounded-full uppercase z-10`}
-                  >
-                    {product.badge}
-                  </span>
-                )}
-                {/* Placeholder for image */}
-                <div className="w-full h-full bg-gradient-to-br from-rose-100 to-pink-200 flex items-center justify-center">
-                  <div className="text-center">
-                    <svg
-                      className="w-24 h-24 mx-auto text-rose-300 opacity-50"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
+              <Link href={`/products/${product.slug}`}>
+                <div className="relative aspect-square bg-gray-100 overflow-hidden cursor-pointer">
+                  {product.tag && (
+                    <span
+                      className={`absolute top-4 left-4 ${getTagColor(
+                        product.tag
+                      )} text-white text-xs font-bold px-3 py-1 rounded-full uppercase z-10`}
                     >
-                      <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
-                    </svg>
-                    <p className="text-gray-400 text-sm mt-2">{product.name}</p>
-                  </div>
+                      {product.tag}
+                    </span>
+                  )}
+                  {/* Product image */}
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    onError={(e) => {
+                      e.currentTarget.src =
+                        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23fce7f3'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23ec4899' font-family='Arial' font-size='20'%3EEmily Flower%3C/text%3E%3C/svg%3E";
+                    }}
+                  />
                 </div>
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              </div>
+              </Link>
 
               {/* Product Info */}
               <div className="p-6">
-                <h3 className="text-xl font-serif text-gray-800 mb-2 uppercase tracking-wide">
-                  {product.name}
-                </h3>
+                <Link href={`/products/${product.slug}`}>
+                  <h3 className="text-xl font-serif text-gray-800 mb-2 uppercase tracking-wide hover:text-rose-400 transition-colors cursor-pointer">
+                    {product.name}
+                  </h3>
+                </Link>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-rose-400">
-                    {product.price}
+                    {product.price.toLocaleString("vi-VN")}đ
                   </span>
                   <button
+                    onClick={() =>
+                      addToCart({
+                        id: product.id,
+                        name: product.name,
+                        slug: product.slug,
+                        price: product.price,
+                        image: product.image,
+                        category: "Sản phẩm nổi bật",
+                      })
+                    }
                     className="flex items-center gap-2 bg-rose-400 text-white px-4 py-2 rounded-full hover:bg-rose-500 transition-colors transform hover:scale-105"
                     aria-label={`Add ${product.name} to cart`}
                   >
@@ -146,12 +176,12 @@ export default function Products() {
 
         {/* View More Button */}
         <div className="text-center mt-12">
-          <a
-            href="#shop"
+          <Link
+            href="/products"
             className="inline-block px-8 py-4 border-2 border-rose-400 text-rose-400 rounded-full hover:bg-rose-400 hover:text-white transition-all transform hover:scale-105 uppercase text-sm tracking-wider font-medium"
           >
             Xem tất cả sản phẩm
-          </a>
+          </Link>
         </div>
       </div>
     </section>

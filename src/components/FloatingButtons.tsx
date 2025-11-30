@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, X } from "lucide-react";
 import Image from "next/image";
 
 export default function FloatingButtons() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -27,7 +26,7 @@ export default function FloatingButtons() {
           <span className="absolute right-16 bg-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium text-gray-800 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
             Chat qua Zalo
           </span>
-          <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:scale-110">
+          <div className="w-14 h-14 bg-linear-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:scale-110">
             <Image
               src="/zalo.png"
               alt="Zalo"
@@ -48,7 +47,7 @@ export default function FloatingButtons() {
           <span className="absolute right-16 bg-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium text-gray-800 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
             Chat qua Messenger
           </span>
-          <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:scale-110">
+          <div className="w-14 h-14 bg-linear-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:scale-110">
             <svg
               className="w-8 h-8 text-white"
               fill="currentColor"
@@ -67,7 +66,7 @@ export default function FloatingButtons() {
           <span className="absolute right-16 bg-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium text-gray-800 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
             Gọi điện ngay
           </span>
-          <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:scale-110">
+          <div className="w-14 h-14 bg-linear-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:scale-110">
             <svg
               className="w-8 h-8 text-white"
               fill="none"
@@ -84,24 +83,6 @@ export default function FloatingButtons() {
           </div>
         </a>
       </div>
-
-      {/* Main Toggle Button */}
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110 ${
-          isExpanded
-            ? "bg-gradient-to-br from-rose-500 to-pink-500 rotate-90"
-            : "bg-gradient-to-br from-rose-400 to-pink-400 animate-pulse-slow"
-        }`}
-        aria-label="Toggle contact buttons"
-      >
-        {isExpanded ? (
-          <X className="w-8 h-8 text-white" />
-        ) : (
-          <MessageCircle className="w-8 h-8 text-white" />
-        )}
-      </button>
-
       <style jsx>{`
         @keyframes pulse-slow {
           0%,

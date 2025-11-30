@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useCart } from "@/contexts/CartContext";
 import { Menu, X, Search, ShoppingCart } from "lucide-react";
 
 export default function Header() {
+  const { totalItems, openCart } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Prevent body scroll when menu is open
@@ -24,7 +26,7 @@ export default function Header() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <h1 className="text-2xl md:text-3xl font-serif">
                 <span className="text-rose-400">EMILY</span>
                 <span className="text-gray-800">FLOWER</span>
@@ -68,13 +70,16 @@ export default function Header() {
                 <Search className="w-5 h-5" />
               </button>
               <button
+                onClick={openCart}
                 className="p-2 hover:text-rose-400 transition-colors relative"
                 aria-label="Cart"
               >
                 <ShoppingCart className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 bg-rose-400 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  0
-                </span>
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-rose-400 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold animate-pulse">
+                    {totalItems > 99 ? "99+" : totalItems}
+                  </span>
+                )}
               </button>
               <button
                 className="md:hidden p-2 hover:text-rose-400 transition-colors"
@@ -108,7 +113,7 @@ export default function Header() {
 
         {/* Menu Content */}
         <nav
-          className={`absolute top-16 left-0 right-0 bottom-0 bg-gradient-to-b from-white via-rose-50/30 to-pink-50/30 backdrop-blur-xl transition-transform duration-300 ${
+          className={`absolute top-16 left-0 right-0 bottom-0 bg-linear-to-b from-white via-rose-50/30 to-pink-50/30 backdrop-blur-xl transition-transform duration-300 ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -166,15 +171,18 @@ export default function Header() {
                 <div className="space-y-3 text-sm text-gray-600">
                   <p className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-rose-400 rounded-full"></span>
-                    <span>📞 0123 456 789</span>
+                    <span>📞 0389789000</span>
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-rose-400 rounded-full"></span>
-                    <span>✉️ hello@emilyflower.com</span>
+                    <span>✉️ tovanthecauthisaodinh@gmail.com</span>
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-rose-400 rounded-full"></span>
-                    <span>📍 123 Đường Hoa, Q.1, TP.HCM</span>
+                    <span>
+                      📍 B12 ngách 2 ngõ 54 đường ngọc hồi, Hoàng Liệt, Hoàng
+                      Mai, Hà Nội
+                    </span>
                   </p>
                 </div>
               </div>

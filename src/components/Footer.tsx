@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300">
       {/* Newsletter Section */}
-      <div className="bg-gradient-to-r from-rose-400 to-pink-400 py-12 md:py-16">
+      <div className="bg-linear-to-r from-rose-400 to-pink-400 py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center">
             <h3 className="text-2xl md:text-3xl font-serif text-white mb-4">
@@ -153,27 +153,28 @@ export default function Footer() {
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-rose-400 flex-shrink-0 mt-1" />
+                <MapPin className="w-5 h-5 text-rose-400 shrink-0 mt-1" />
                 <span className="text-gray-400">
-                  123 Đường Hoa, Quận 1, TP.HCM
+                  B12 ngách 2 ngõ 54 đường ngọc hồi, Hoàng Liệt, Hoàng Mai, Hà
+                  Nội
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-rose-400 flex-shrink-0" />
+                <Phone className="w-5 h-5 text-rose-400 shrink-0" />
                 <a
-                  href="tel:0123456789"
+                  href="tel:0389789000"
                   className="text-gray-400 hover:text-rose-400 transition-colors"
                 >
-                  0123 456 789
+                  0389789000
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-rose-400 flex-shrink-0" />
+                <Mail className="w-5 h-5 text-rose-400 shrink-0" />
                 <a
-                  href="mailto:hello@emilyflower.com"
+                  href="mailto:tovanthecauthisaodinh@gmail.com"
                   className="text-gray-400 hover:text-rose-400 transition-colors"
                 >
-                  hello@emilyflower.com
+                  tovanthecauthisaodinh@gmail.com
                 </a>
               </li>
             </ul>
