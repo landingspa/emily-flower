@@ -18,7 +18,7 @@ export default function FloatingButtons() {
       >
         {/* Zalo Button */}
         <a
-          href="https://zalo.me/YOUR_ZALO_ID"
+          href="https://zalo.me/0389789000"
           target="_blank"
           rel="noopener noreferrer"
           className="group relative flex items-center justify-end"
@@ -39,7 +39,7 @@ export default function FloatingButtons() {
 
         {/* Facebook Messenger Button */}
         <a
-          href="https://m.me/YOUR_FACEBOOK_PAGE_ID"
+          href="https://facebook.com"
           target="_blank"
           rel="noopener noreferrer"
           className="group relative flex items-center justify-end"
@@ -60,7 +60,7 @@ export default function FloatingButtons() {
 
         {/* Phone Button */}
         <a
-          href="tel:0123456789"
+          href="tel:0389789000"
           className="group relative flex items-center justify-end"
         >
           <span className="absolute right-16 bg-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium text-gray-800 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
